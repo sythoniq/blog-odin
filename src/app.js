@@ -1,11 +1,13 @@
 require('dotenv').config()
 
+const passport = require('passport')
 const cors = require('cors') // an npm module for cors, -_-
 const express = require("express")
 const app = express()
 
 // adding some middleware
 app.use(cors())
+
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
