@@ -39,17 +39,12 @@ async function getPostComments(req, res, next) {
 
 async function uploadPost(req, res, next) {
   try {
-    const user = await prisma.user.findUnique({
-      where: {
-        userId: 4
-      }
-    }) 
     const { postTitle, postContent } = req.body 
     const post = await prisma.post.create({
       data: {
         postTitle,
         postContent,
-        authorId: user.userId
+        authorId: Number(req.user.userId)
       }
     })
     res.status(200).json({success: true, post})
@@ -60,7 +55,18 @@ async function uploadPost(req, res, next) {
 }
 
 async function commentOnPost(req, res, next) {
-    // TO DO 
+  try {
+    await prisma.comment.create({
+      data: {
+        content: req.body.commentBody,
+        uploaderId: req.user.userId,
+        postId: Number(req.params.postId)
+      }
+    })
+    res.status(200).json({success: true, msg: "Comment Uploaded"})
+  } catch(err) {
+    res.status(404).json({success: false, err});
+  }
 }
 
 module.exports = {

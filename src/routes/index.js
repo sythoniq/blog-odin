@@ -3,7 +3,7 @@ const { Router } = require('express')
 const controller = require('../controllers/indexCont')
 const index = Router()
 
-index.get("/", passport.authenticate('jwt', {session: false}), controller.root);
+index.get("/", controller.root);
 index.get("/sign-up", controller.getRegister)
 
 index.post("/sign-up", controller.postRegister)

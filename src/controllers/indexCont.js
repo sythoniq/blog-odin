@@ -22,26 +22,26 @@ function issueJWT(user) {
 }
 
 async function root(req, res, next) {
-  res.status(200).json({success: true, msg: "Login page"})
+  res.status(200).json({success: true, msg: "Login page"}) 
 }
 
 async function getRegister(req, res, next) {
-  res.status(200).send("Render sign up page")
+  res.status(200).json({success: true, msg: "Render sign up page"})
 }
 
 async function postRegister(req, res, next) {
   const hashedpass = await bcrypt.hash(req.body.password, 10);
 
   try {
-    await prisma.user.create({
+    const user = await prisma.user.create({
       data: {
         username: req.body.username,
         userhash: hashedpass 
       }
     })
-    res.status(200).send("User registerd successfully")
+    res.status(200).json({success: true, user})
   } catch(err) {
-    res.status(200).send("User not registered")
+    res.status(404).json({success: false, err})
   }
 }
 
@@ -54,18 +54,18 @@ async function handleLogin(req, res, next) {
     })
     
     if (!user) {
-      res.status(401).send({success: false, msg: "User not found"}) 
+      res.status(401).json({success: false, msg: "User not found"}) 
     } 
 
     const isvalid = await bcrypt.compare(req.body.password, user.userhash);
     if (isvalid) {
       const signedToken = issueJWT(user);
-      res.status(200).send({ success: true, token: signedToken.token, expiresIn:signedToken.expires})
+      res.status(200).json({ success: true, token: signedToken.token, expiresIn:signedToken.expires})
     } else {
-      res.status(401).send({success: false, msg: "Incorrect password"})
+      res.status(401).json({success: false, msg: "Incorrect password"})
     }
   } catch(err) {
-    next(err);
+    res.status(404).json({success: false, err})
   }
 }
 
