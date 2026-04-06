@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const jwt = require('jsonwebtoken')
 const prisma = require("../configs/prisma.js")
 const bcrypt = require('bcryptjs')
@@ -11,7 +13,7 @@ function issueJWT(user) {
     iat: Date.now()
   }
 
-  const token = jwt.sign(payload, 'secret', {expiresIn})
+  const token = jwt.sign(payload, process.env.SECRET, {expiresIn})
 
   return {
     token: 'Bearer ' + token,
@@ -20,6 +22,7 @@ function issueJWT(user) {
 }
 
 async function root(req, res, next) {
+  console.log(req)
   res.status(200).send('Render home page or login page')
 }
 
@@ -57,7 +60,7 @@ async function handleLogin(req, res, next) {
 
     const isvalid = await bcrypt.compare(req.body.password, user.userhash);
     if (isvalid) {
-      console.log("User authorized for login")
+      console.log(req)
       const signedToken = issueJWT(user);
       res.status(200).send({ success: true, token: signedToken.token, expiresIn:signedToken.expires})
     } else {

@@ -11,6 +11,10 @@ app.use(cors())
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
+require('./configs/passport.js')(passport)
+
+app.use(passport.initialize())
+
 const index = require("./routes/index")
 const posts = require('./routes/posts')
 
