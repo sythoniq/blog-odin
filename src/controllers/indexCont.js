@@ -11,7 +11,7 @@ function issueJWT(user) {
     iat: Date.now()
   }
 
-  const token = jwt.sign(payload, 'need a key', {expiresIn, algorithm: 'RS256'})
+  const token = jwt.sign(payload, 'secret', {expiresIn})
 
   return {
     token: 'Bearer ' + token,
