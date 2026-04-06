@@ -22,8 +22,7 @@ function issueJWT(user) {
 }
 
 async function root(req, res, next) {
-  console.log(req)
-  res.status(200).send('Render home page or login page')
+  res.status(200).json({success: true, msg: "Login page"})
 }
 
 async function getRegister(req, res, next) {
@@ -60,7 +59,6 @@ async function handleLogin(req, res, next) {
 
     const isvalid = await bcrypt.compare(req.body.password, user.userhash);
     if (isvalid) {
-      console.log(req)
       const signedToken = issueJWT(user);
       res.status(200).send({ success: true, token: signedToken.token, expiresIn:signedToken.expires})
     } else {

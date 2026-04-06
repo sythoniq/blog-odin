@@ -11,11 +11,7 @@ const options = {
 }
 
 module.exports = (passport) => {
-  // The JWT payload is passed into the verify callback
   passport.use(new JwtStrategy(options, async (jwt_payload, done) => {
-
-    console.log(jwt_payload);
-
     const user = await prisma.user.findUnique({
       where: {
         userId: jwt_payload.sub
