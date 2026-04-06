@@ -5,7 +5,7 @@ async function getAllPosts(req, res, next) {
     const posts = await prisma.post.findMany({})
     res.status(200).json({success: true, posts})
   } catch(err) {
-    res.status(404).json({success: false, err})
+    res.status(500).json({success: false, err})
   }
 }
 
@@ -19,7 +19,7 @@ async function viewPost(req, res, next) {
     })
     res.status(200).json({success: true, post})
   } catch(err) {
-    res.status(404).json({success: false, err})
+    res.status(500).json({success: false, err})
   }
 }
 
@@ -33,7 +33,7 @@ async function getPostComments(req, res, next) {
     })
     res.status(200).json({success: true, comments});
   } catch(err) {
-    res.status(404).json({success: false, err})
+    res.status(500).json({success: false, err})
   }
 }
 
@@ -49,8 +49,7 @@ async function uploadPost(req, res, next) {
     })
     res.status(200).json({success: true, post})
   } catch(err) {
-    console.log(err);
-    res.status(404).json({success: false, err})
+    res.status(500).json({success: false, err})
   }
 }
 
@@ -65,7 +64,7 @@ async function commentOnPost(req, res, next) {
     })
     res.status(200).json({success: true, msg: "Comment Uploaded"})
   } catch(err) {
-    res.status(404).json({success: false, err});
+    res.status(500).json({success: false, err});
   }
 }
 

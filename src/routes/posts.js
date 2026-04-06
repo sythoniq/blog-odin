@@ -7,7 +7,7 @@ posts.get("/", controller.getAllPosts);
 posts.get("/:postId", controller.viewPost)
 posts.get("/:postId/comments", controller.getPostComments)
 
-posts.post("/create", passport.authenticate('jwt', {session: false}), controller.uploadPost);
-posts.post("/create/:postId/comment", passport.authenticate('jwt', {session: false}), controller.commentOnPost);
+posts.post("/post", passport.authenticate('jwt', {session: false}), controller.uploadPost);
+posts.post("/post/:postId/comment", passport.authenticate('jwt', {session: false}), controller.commentOnPost);
 
 module.exports = posts;

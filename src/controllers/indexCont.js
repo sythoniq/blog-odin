@@ -41,7 +41,7 @@ async function postRegister(req, res, next) {
     })
     res.status(200).json({success: true, user})
   } catch(err) {
-    res.status(404).json({success: false, err})
+    res.status(500).json({success: false, err})
   }
 }
 
@@ -65,7 +65,7 @@ async function handleLogin(req, res, next) {
       res.status(401).json({success: false, msg: "Incorrect password"})
     }
   } catch(err) {
-    res.status(404).json({success: false, err})
+    res.status(500).json({success: false, err})
   }
 }
 
