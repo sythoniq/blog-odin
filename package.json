@@ -19,7 +19,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "npx prisma migrade dev --name init"
+    "build": "npx prisma migrade dev --name init",
     "start": "node --watch --no-network-family-autoselection src/app",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
